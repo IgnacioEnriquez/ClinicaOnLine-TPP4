@@ -1,0 +1,207 @@
+.subtitulo-sign-in
+{
+	margin-bottom: 15px;
+}
+
+.titulo-sign-in
+{
+	font-size: 30px;
+	margin-bottom: 15px;
+}
+
+.form-sign-in
+{
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.margin-deleted
+{
+	margin-bottom: 0px;
+}
+
+.form-control
+{
+	margin-bottom: 10px;
+}
+
+.mensaje-error {
+	background: rgba(255, 0, 0, 0.74);
+	color: #fff;
+	padding: 0px 5px;
+	border-radius: 5px;
+	text-shadow: 1px 1px #000;
+	font-size: 10px;
+	margin-top: 0px;
+}
+
+.button-signup
+{
+	margin-top: 20px;
+}
+
+.spinner-border
+{
+	margin-right: 10px;   
+	--bs-spinner-width: 1rem;
+    --bs-spinner-height: 1rem;
+}
+
+.social-container {	
+	margin-top: 6px;
+	margin-bottom: 6px;
+	width: 100%;
+	display: flex;
+    justify-content: center;
+}
+
+.sign-in
+{
+margin-top: 15px;
+}
+
+.button-especialista,.button-paciente
+{
+	height: 5rem;
+    // width: 8rem;
+	display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    align-items: center;
+}
+
+// Botones de Especialidades
+.btn-89,
+.btn-89 *,
+.btn-89 :after,
+.btn-89 :before,
+.btn-89:after,
+.btn-89:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+.btn-89 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: button;
+  background-color: #000;
+  background-image: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+}
+.btn-89:disabled {
+  cursor: default;
+}
+.btn-89:-moz-focusring {
+  outline: auto;
+}
+.btn-89 img {
+  vertical-align: middle;
+}
+.btn-89 [hidden] {
+  display: none;
+}
+.btn-89 {
+  background: none;
+  border: 2px solid;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: block;
+  height: 90px;
+  overflow: hidden;
+  position: relative;
+  text-transform: uppercase;
+  width: 90px;
+}
+.btn-89:hover {
+  -webkit-animation: pulse 0.6s;
+  animation: pulse 0.6s;
+  box-shadow: 0 0 0 2em transparent;
+}
+@-webkit-keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #fff;
+  }
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #fff;
+  }
+}
+.btn-89 img {
+  --size: 50px;
+  fill: #000;
+  display: block;
+  height: var(--size);
+  left: calc(50% - var(--size) / 2);
+  position: absolute;
+  top: calc(50% - var(--size) / 2);
+  width: var(--size);
+}
+.btn-89:before {
+  background: #fff;
+  border-radius: 50%;
+  content: "";
+  inset: 2px;
+  position: absolute;
+}
+.btn-89:hover img,
+.btn-89:hover:before {
+  -webkit-animation: move 0.5s;
+  animation: move 0.5s;
+}
+@-webkit-keyframes move {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+  51% {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes move {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+  51% {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.label-button-fast
+{
+	font-size: 13px;
+	font-weight:500;
+}
+
+button {
+	border-radius: 20px;
+	border: 1px solid #000;
+	background-color: #1977cc;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}

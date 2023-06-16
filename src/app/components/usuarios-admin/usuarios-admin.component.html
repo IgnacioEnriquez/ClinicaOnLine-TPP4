@@ -1,0 +1,73 @@
+
+<div class="body-users">
+
+    <div class="contenedor-spinner" *ngIf="spinner">
+        <div class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    
+
+    <div class="listado-div container" *ngIf="listadoUsuarios && !spinner">
+        <div class="text-center">
+            <h1>Lista de Usuarios</h1>
+            <div *ngIf="listadoUsuarios" class="boton-agregar">
+                <button (click)="mostrarCreacionPaciente()" class="button-56" role="button">Registrar Nuevo Usuario</button>
+            </div>
+        </div>
+        <ol class="list-group list-group-numbered" *ngFor="let user of usersList">            
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+              <div class="ms-2 me-auto">
+                <div class="fw-bold">{{ user.perfil.toUpperCase()  }}</div>
+                Nombre: {{ user.nombre }} {{ user.apellido }}
+              </div>
+              <div *ngIf="user.perfil == 'especialista'">
+                <button
+                  class="btn btn-success"
+                  *ngIf="!user.aprobado"
+                  (click)="updateUser(user, 1)"
+                >
+                  Habilitar
+                </button>
+                <button
+                  class="btn btn-danger"
+                  *ngIf="user.aprobado"
+                  (click)="updateUser(user, 2)"
+                >
+                  Deshabilitar
+                </button>
+              </div>            
+              <img style="width: 60px; height: 60px;" src="{{ user.imagen1 }}" alt="">
+            </li>
+          </ol>
+    </div>
+
+    <div class="alta-paciente-div" *ngIf="!listadoUsuarios && !spinner">
+        <div class="container">
+            <div class="text-center">
+              <div class="titulo-back">
+                <button (click)="volverAListado()"><img src="../../../assets/back.png" style="height: 30px; width: 30px;" alt=""></button>
+                <h2>REGISTRO DE USUARIO</h2>
+              </div>
+                
+                <div class="container">
+                    <button (click)="cambiarFormulario(1)" [ngClass]="formAdministrador ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Administrador</button>
+                    <button (click)="cambiarFormulario(2)" [ngClass]="formPaciente ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Paciente</button>
+                    <button (click)="cambiarFormulario(3)" [ngClass]="formEspecialista ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Especialista</button>
+                </div>                
+            </div>
+         
+        <div class="container" >            
+            <app-form-alta-paciente *ngIf="formPaciente"></app-form-alta-paciente>
+            <app-form-alta-especialista *ngIf="formEspecialista"></app-form-alta-especialista>
+            <app-form-alta-administrador *ngIf="formAdministrador"></app-form-alta-administrador>
+
+        </div>
+
+        </div>              
+    </div>
+
+</div>
+
+
+

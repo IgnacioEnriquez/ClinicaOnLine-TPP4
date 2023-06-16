@@ -1,0 +1,70 @@
+<div class="body-login">
+	<div [ngClass]="flag_registro == true ? 'right-panel-active' : '' " class="container" id="container">
+		<div class="form-container sign-up-container">
+			<div class="form form-register">
+				<div *ngIf="form_paciente; else especialistaTemplate" class="titulo-registro">
+					<h1 class="titulo-registro">Registro de Pacientes!</h1>
+				</div>
+
+				<ng-template #especialistaTemplate>
+					<h1 class="titulo-registro">Registro de Especialistas!</h1>
+				</ng-template>
+
+				<div class="social-container">
+					<div class="button-especialista">
+						<label for="">Especialista</label>
+						<button (click)="irAEspecialista()" class="btn-89">
+							<img src="../../../assets/persona-icon.png" alt="">
+						</button>
+
+					</div>
+
+					<div class="button-paciente">
+						<label for="">Paciente</label>
+						<button (click)="irAPaciente()" class="btn-89">
+							<img src="../../../assets/persona-icon.png" alt="">
+						</button>
+
+					</div>
+				</div>
+
+				<div class="contenedor-spinner" *ngIf="spinner">
+					<div class="spinner-list spinner-grow text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+
+				<div *ngIf="form_paciente">
+					<app-form-alta-paciente></app-form-alta-paciente>
+				</div>
+
+				<div *ngIf="form_especialista">
+					<app-form-alta-especialista></app-form-alta-especialista>
+				</div>
+
+			</div>
+		</div>
+		<div *ngIf="!flag_registro" class="form-container sign-in-container">
+			<div class="form">
+				<app-form-login></app-form-login>
+
+			</div>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1>Bienvenido!</h1>
+					<p>En esta seccion se podra registrar tanto pacientes como especialistas!</p>
+					<button (click)="CambiarFlagRegistro()" class="ghost" id="signIn">Iniciar Sesion</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>BIENVENIDO</h1>
+					<p>Ingrese los datos de sesion correspondientes!</p>
+					<button (click)="CambiarFlagRegistro()" class="ghost" id="signUp">Registro</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

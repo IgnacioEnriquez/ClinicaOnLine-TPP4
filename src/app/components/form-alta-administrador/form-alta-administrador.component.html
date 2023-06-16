@@ -1,0 +1,168 @@
+<div class="inputs-form">  
+
+    <form 
+    [formGroup]="formAdministrador"    
+    (ngSubmit)="registrarAdministrador()">
+
+    <div class="row">
+        <!-- INPUT DE NOMBRE -->
+        <div class="col-6 ">
+            <input 
+            [ngClass]="formAdministrador.controls['nombre'].errors?.['required'] &&
+            formAdministrador.controls['nombre'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="nombre" 
+            id="nombre" 
+            type="text" 
+            placeholder="Nombre" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['nombre'].errors?.['required'] &&
+                        formAdministrador.controls['nombre'].touched
+                                    "
+              >
+                El Nombre es requerido
+              </small>
+
+        </div>
+        <!-- INPUT DE APELLIDO -->
+        <div class="col-6 ">
+            <input
+            [ngClass]="formAdministrador.controls['apellido'].errors?.['required'] &&
+            formAdministrador.controls['apellido'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="apellido" 
+            id="apellido" 
+            type="text" 
+            placeholder="Apellido" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['apellido'].errors?.['required'] &&
+                        formAdministrador.controls['apellido'].touched
+                                    "
+              >
+                El Apellido es requerido
+              </small>
+        </div>
+
+        <!-- INPUT DE EMAIL -->        
+        <div class="col-12 ">
+            <input
+            [ngClass]="formAdministrador.controls['email'].errors?.['required'] &&
+            formAdministrador.controls['email'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="email" 
+            id="email" 
+            type="email" 
+            placeholder="Email" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['email'].errors?.['required'] &&
+                        formAdministrador.controls['email'].touched
+                                    "
+              >
+                El email es requerido
+              </small>
+        </div>
+
+        <!-- INPUT DE EDAD -->              
+        <div class="col-6">
+            <input
+            [ngClass]="formAdministrador.controls['edad'].errors?.['required'] &&
+            formAdministrador.controls['edad'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="edad" 
+            id="edad" 
+            type="number" 
+            placeholder="Edad" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['edad'].errors?.['required'] &&
+                        formAdministrador.controls['edad'].touched
+                                    "
+              >
+                La edad es requerida
+            </small>
+            <small
+        class="mensaje-error"
+        *ngIf="
+                  formAdministrador.controls['edad'].errors?.['min'] ||
+                            (formAdministrador.controls['edad'].errors?.['max'] &&
+                            formAdministrador.controls['edad'].touched)
+                          "
+      >
+        La Edad debe ser de 18 a 99 años
+      </small>
+        </div>
+
+        <!-- INPUT DE DNI -->        
+        <div class="col-6 ">
+            <input
+            [ngClass]="formAdministrador.controls['dni'].errors?.['required'] &&
+            formAdministrador.controls['dni'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="dni" 
+            id="dni" 
+            type="number" 
+            placeholder="N° DNI" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['dni'].errors?.['required'] &&
+                        formAdministrador.controls['dni'].touched
+                                    "
+              >
+                El DNI es requerido
+              </small>
+        </div>     
+
+        <!-- INPUT DE PASSWORD -->       
+        <div class="col-12 ">
+            <input
+            [ngClass]="formAdministrador.controls['password'].errors?.['required'] &&
+            formAdministrador.controls['password'].touched ? 'margin-deleted' : '' "
+            class="form-control"
+            formControlName="password" 
+            id="password" 
+            type="password"
+            placeholder="Password" 
+            />
+            <small
+                class="mensaje-error"
+                *ngIf="
+                        formAdministrador.controls['password'].errors?.['required'] &&
+                        formAdministrador.controls['password'].touched
+                                    "
+              >
+                El password es requerido
+              </small>
+        </div>
+
+        <!-- INPUT DE IMAGEN 1 -->   
+        <div class="col-12">
+          <div class="input-group">
+            <input type="file" class="form-control" id="inputGroupFile02" style="font-size: 10px;" (change)="uploadImage($event)">       
+            <label class="input-group-text" for="inputGroupFile01" style="font-size: 10px; height: 43px;">Imagen 1</label>            
+          </div>          
+        </div>                       
+    </div>             
+        
+    <button [disabled]="spinner" class="button-signup"><div *ngIf="spinner" class="spinner-border" role="status">
+
+      <span  class="spinner visually-hidden">Loading...</span>
+     
+
+    </div>Registrar</button>    
+    
+</form>    
+</div>
+    
