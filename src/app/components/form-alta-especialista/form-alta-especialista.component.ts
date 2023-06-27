@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
@@ -12,10 +12,12 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class FormAltaEspecialistaComponent {
 
+  @Input() tipoRegistro: any = 1;
   formEspecialista: FormGroup;
   newEspecialista: User = new User();  
   especialidad: boolean = false;
   spinner: boolean = false;
+  captcha: string = '';
 
   constructor(private formBuilder: FormBuilder,
     private angularFireStorage: AngularFireStorage,
@@ -30,13 +32,20 @@ export class FormAltaEspecialistaComponent {
       dni: ['', [Validators.required]],
       especialidad: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]],     
+      password: ['', [Validators.required]],
+      captcha: ['', [Validators.required]], 
     });      
-    
+    this.captcha = this.generateRandomString(6);
   } //--------------------------------------------------------------------------------------------------
 
    registrarEspecialista() {
     if (this.formEspecialista.valid) {
+
+      if (
+        this.captcha.toLocaleLowerCase().trim() ==
+        this.formEspecialista.getRawValue().captcha.toLocaleLowerCase().trim()
+      )
+      {
         if (this.newEspecialista.imagen1 != '') {
           this.spinner = true;
           this.newEspecialista.perfil = 'especialista';
@@ -47,16 +56,24 @@ export class FormAltaEspecialistaComponent {
           this.newEspecialista.edad = this.formEspecialista.getRawValue().edad;
           this.newEspecialista.dni = this.formEspecialista.getRawValue().dni;
           this.newEspecialista.especialidad =
-            this.formEspecialista.getRawValue().especialidad;
+          {
+            duracionTurno: 30,
+            diasTurnos : ["lunes"],
+            nombre : this.formEspecialista.getRawValue().especialidad
+          }
+            
           this.newEspecialista.email =
             this.formEspecialista.getRawValue().email;
           this.newEspecialista.password =
             this.formEspecialista.getRawValue().password;
-          this.authService.registerNewUser(this.newEspecialista);
+            console.log(this.tipoRegistro);
+          this.authService.registerNewUser(this.newEspecialista,this.tipoRegistro);
+          this.authService.userLogout();          
+
           setTimeout(() => {
             this.spinner = false;
             this.formEspecialista.reset();
-            this.addEspecialidad();
+            this.formEspecialista.controls['especialidad'].setValue("clinico");        
             this.newEspecialista = new User();
           }, 2000);
         } else {
@@ -65,6 +82,15 @@ export class FormAltaEspecialistaComponent {
             'Registro Especialista'
           );
         }      
+
+      }
+      else {
+        this.notificationService.showWarning(
+          'El CAPTCHA no coincide',
+          'Registro Paciente'
+        );
+        this.captcha = this.generateRandomString(6);
+      }
     } else {
       this.notificationService.showWarning(
         'Debes completar todos los campos requeridos',
@@ -94,5 +120,17 @@ export class FormAltaEspecialistaComponent {
     }
   } //--------------------------------------------------------------------------------------------------
 
+  generateRandomString(num: number) {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result1 = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result1 += characters.charAt(
+        Math.floor(Math.random() * charactersLength)
+      );
+    }
+    return result1;
+  }//--------------------------------------------------------------------------------------------------
 
 }

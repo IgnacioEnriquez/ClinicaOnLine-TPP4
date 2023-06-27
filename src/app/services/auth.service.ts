@@ -17,6 +17,7 @@ export class AuthService {
   user$: any;
   isAdmin: boolean = false;
   isLogged: boolean = false;
+  private userAux : User = new User();
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -34,10 +35,30 @@ export class AuthService {
           return of(null);
         }
       })
-    );
+    );    
+
+    this.user$.subscribe((user : any)=>
+    {
+      if(user)
+      {
+        this.userAux.email = user.email;
+        this.userAux.password = user.password;    
+        console.log(this.userAux);
+      }
+    })  
   } //--------------------------------------------------------------------------------------------------
 
-  registerNewUser(newUser: User) {
+
+  ngOnInit()
+  { 
+    
+  }
+
+  registerNewUser(newUser: User,tipo_registro : number) {
+
+    let passwordAux = this.userAux.password;  
+    let emailAux = this.userAux.email;
+    
     this.angularFireAuth
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then((data) => {
@@ -64,8 +85,14 @@ export class AuthService {
             this.notifyService.showInfo(
               'Verifica tu email',
               'Registro exitoso'
-            );      
-            this.userLogout();      
+            );   
+            this.userLogout();       
+            
+            if(tipo_registro == 2)
+            {                         
+              console.log("ingreso aca");
+              this.userLogin(emailAux,passwordAux);
+            }       
           })
           .catch((error) => {
             this.notifyService.showError(
@@ -73,7 +100,8 @@ export class AuthService {
               'Error'
             );
           });
-      })
+                                 
+      })           
       .catch((error) => {
         this.notifyService.showError(this.createMessage(error.code), 'Error');
       });
@@ -114,6 +142,10 @@ export class AuthService {
     }
   } // ------------------------------------------------------------------------------------- 
 
+  async userLoginAnterior() {
+    console.log(this.userAux)
+  }
+
   private createMessage(errorCode: string): string {
     let message: string = '';
     switch (errorCode) {
@@ -138,10 +170,40 @@ export class AuthService {
     }
 
     return message;
-  } // -------------------------------------------------------------------------------------
+  } //--------------------------------------------------------------------------------------------------
 
   getUsers() {
     const collection = this.angularFirestore.collection<any>('usuarios');
     return collection.valueChanges();
+  } //--------------------------------------------------------------------------------------------------
+
+  getTurnList() {
+    const collection = this.angularFirestore.collection<any>('turnos');
+    return collection.valueChanges();
+  } //--------------------------------------------------------------------------------------------------
+  
+  updateTurnList(turn: any) {
+    this.angularFirestore
+      .doc<any>(`turnos/${turn.id}`)
+      .update(turn)
+      .then(() => {})
+      .catch((error) => {
+        console.log(error.message);
+        this.notifyService.showError('Ocurrio un error', 'Administrador');
+      });
+  } //--------------------------------------------------------------------------------------------------
+  
+  
+  createTurnList(turn: any) {
+    this.angularFirestore
+      .collection<any>('turnos')
+      .add(turn)
+      .then((data) => {
+        this.angularFirestore.collection('turnos').doc(data.id).set({
+          id: data.id,
+          especialista: turn.especialista,
+          turnos: turn.turnos,
+        });
+      });
   } //--------------------------------------------------------------------------------------------------
 }

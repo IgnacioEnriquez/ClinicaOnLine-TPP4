@@ -1,0 +1,132 @@
+.body-turnos
+{
+    margin-top: 190px;
+    width: 100%;
+}
+
+.contenedor-spinner
+{
+	display: flex;
+    width: 100%;
+    /* height: 1000px; */
+    justify-content: center;	
+
+	.spinner-list
+	{
+		--bs-spinner-width: 6rem;
+    --bs-spinner-height: 6rem;
+
+	}
+}
+
+.turnos
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-lista
+{
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.title-lista h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding-bottom: 20px;
+  position: relative;
+  color: #2c4964;
+}
+
+.title-lista h2::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: #ddd;
+  bottom: 1px;
+  left: calc(50% - 60px);
+}
+
+.title-lista h2::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #1977cc;
+  bottom: 0;
+  left: calc(50% - 20px);
+}
+
+.busqueda-button
+{
+    width: 100%;
+    padding-left: 250px;
+}
+
+.input-busqueda {
+  width: 15rem;
+  border: 3px solid rgb(0, 119, 255);
+  border-radius: 10px;
+  height: 2rem;
+  padding-left: 1rem;
+  box-shadow: 2px 2px 4px #000;
+}
+
+.input-busqueda:focus {
+  border: 3px solid rgb(0, 119, 255);
+  box-shadow: 0 0 12px #0099ff;
+  transition: box-shadow 0.5s;
+}
+
+.tabla-usuario
+{
+    height: 75%;
+  overflow-y: scroll;
+  z-index: 100;
+  left: 5%;
+  top: 18%;
+  background: #000;
+  color: #fff;
+  padding: 1rem;
+  background: #1979cc30;
+  border: 2px solid #fff;
+  box-shadow: 2px 2px 4px #000;
+  text-shadow: 1px 1px #000; 
+  table {
+    color: #fff;
+    font-weight: 400;
+  }
+}
+.contenedor-spinner
+{
+	display: flex;
+    width: 100%;
+    /* height: 1000px; */
+    justify-content: center;	
+
+	.spinner-list
+	{
+
+	--bs-spinner-width: 6rem;
+    --bs-spinner-height: 6rem;
+
+	}
+}
+
+.estado {
+  font-weight: bolder;
+  text-transform: uppercase;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255, 255, 255);
+  background: #0071b4b3;
+  color: white;
+}
+

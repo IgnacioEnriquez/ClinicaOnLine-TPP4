@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
@@ -11,7 +11,8 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./form-alta-administrador.component.scss']
 })
 export class FormAltaAdministradorComponent {
-
+ 
+  @Input() tipoRegistro: any = 1 ;
   formAdministrador: FormGroup;
   newAdministrador: User = new User(); 
   spinner: boolean = false;
@@ -47,7 +48,8 @@ export class FormAltaAdministradorComponent {
           this.formAdministrador.getRawValue().email;
         this.newAdministrador.password =
           this.formAdministrador.getRawValue().password;
-        this.authService.registerNewUser(this.newAdministrador);     
+        this.authService.registerNewUser(this.newAdministrador,this.tipoRegistro);          
+       
         setTimeout(() => {
           this.spinner = false;
           this.formAdministrador.reset();

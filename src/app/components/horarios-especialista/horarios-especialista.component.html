@@ -1,0 +1,34 @@
+
+
+<div class="text-center mt-3">
+    <button class="button-back" (click)="volverAPerfil()"><img src="../../../assets/back.png" style="height: 30px; width: 30px;" alt=""></button>
+    <span class="bg-primary p-1 px-4 rounded text-white">MIS HORARIOS</span>
+    <div class="horarios-div col">           
+        <div class="container-dias">
+            <button (click)="addDay('lunes')" [ngClass]="lunes ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">LUNES</button>
+            <button (click)="addDay('martes')" [ngClass]="martes ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">MARTES</button>
+            <button (click)="addDay('miércoles')" [ngClass]="miercoles ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">MIÉRCOLES</button>
+        </div>
+        <div class="container-dias">
+            <button (click)="addDay('jueves')" [ngClass]="jueves ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">JUEVES</button>
+            <button (click)="addDay('viernes')" [ngClass]="viernes ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">VIERNES</button>
+            <button (click)="addDay('sábado')" [ngClass]="sabado ? 'btn btn-success' : ' btn btn-outline-primary'" type="button" class="dias">SÁBADO</button>
+        </div>
+
+        <div class="input-duracion">
+            <label style="margin-top: 1rem; margin-bottom: 1rem">Duración de Turno (min)</label>
+            <input  
+            [(ngModel)]="duracionTurno"
+            class="form-control" 
+            type="number"
+            placeholder="30 Minutos" />
+        </div>
+
+        <button 
+        (click)="actualizarUsuario()"
+        type="button" 
+        class="btn-guardar btn btn-success">Guardar Cambios de Horario</button>
+    
+        
+    </div>
+</div>

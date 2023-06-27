@@ -6,7 +6,7 @@ export class User {
   edad: number;
   dni: number;
   obraSocial: string;
-  especialidad: string;
+  especialidad: string | any;
   email: string;
   password: string;
   imagen1: string;

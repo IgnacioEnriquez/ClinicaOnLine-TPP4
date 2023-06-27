@@ -8,29 +8,27 @@ import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-form-login',
   templateUrl: './form-login.component.html',
-  styleUrls: ['./form-login.component.scss']
+  styleUrls: ['./form-login.component.scss'],
 })
 export class FormLoginComponent {
-
   formLogin: FormGroup;
-  spinner: boolean = false; 
+  spinner: boolean = false;
   userLogin: User = new User();
-  campoCargado: boolean = false; 
+  campoCargado: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router ) {
-    
+    private router: Router
+  ) {
     this.formLogin = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
-    });     
+    });
   } //--------------------------------------------------------------------------------------------------
 
-  loginUser()
-  {
+  loginUser() {
     if (this.formLogin.valid) {
       this.spinner = true;
       this.userLogin.email = this.formLogin.getRawValue().email;
@@ -39,58 +37,43 @@ export class FormLoginComponent {
         .userLogin(this.userLogin.email, this.userLogin.password)
         .then(async (data: any) => { 
 
-          this.authService.user$.subscribe((user: any) => {
-            if (user) {
-              if (user.test) {
+          let subscripcion = this.authService.user$.subscribe((user: any) => {
+            if (user) {    
+              console.log("Entro aca");
+              console.log(user.test);          
+              if (!data?.user?.emailVerified) {
+                console.log("Entra aca 1");
+                data?.user?.sendEmailVerification();
+                this.notificationService.showWarning(
+                  'Debes verificar tu email!',
+                  'Inicio de Sesión'
+                );
+                this.spinner = false;              
+                subscripcion.unsubscribe();
+                this.authService.userLogout();
+              } else {
                 if (user.perfil == 'especialista' && user.aprobado == false) {
+                console.log("Entra aca 2");
                   this.notificationService.showWarning(
                     'Tu Cuenta no esta aprobada por un Administrador',
                     'Inicio de Sesión'
                   );
                   this.spinner = false;
+                  subscripcion.unsubscribe();
                   this.authService.userLogout();
-
                 } else {
                   this.authService.isLogged = true;
                   this.notificationService.showSuccess(
-                   'Inicio exitoso, redirigiendo...',
-                   'Inicio de Sesión'
-                 );                 
-                  
-                  this.spinner = false;
-                  this.router.navigate(['/bienvenido']);
-                }
-              } else {
-
-                if (!data?.user?.emailVerified) {
-                  data?.user?.sendEmailVerification();
-                  this.notificationService.showWarning(
-                    'Debes verificar tu email!',
+                    'Inicio exitoso, redirigiendo...',
                     'Inicio de Sesión'
-                  );
-                  this.spinner = false;
-                  this.authService.userLogout();
-
-                } else {
-                  if (user.perfil == 'especialista' && user.aprobado == false) {
-                    this.notificationService.showWarning(
-                      'Tu Cuenta no esta aprobada por un Administrador',
-                      'Inicio de Sesión'
-                    );
-                    this.spinner = false;
-                    this.authService.userLogout();
-
-                  } else {
-                    this.authService.isLogged = true;
-                     this.notificationService.showSuccess(
-                       'Inicio exitoso, redirigiendo...',
-                       'Inicio de Sesión'
-                     );                    
-                    this.spinner = false;
-                    this.router.navigate(['/bienvenido']);
-                  }
+                  );                          
+                  this.spinner = false;                  
+                  this.router.navigate(["bienvenido"]);
+                  subscripcion.unsubscribe();
+                  
                 }
               }
+
             }
           });
         })
@@ -103,40 +86,38 @@ export class FormLoginComponent {
         'Inicio de Sesión'
       );
     }
-    
-  }//--------------------------------------------------------------------------------------------------
+  } //--------------------------------------------------------------------------------------------------
 
-  cargarUsuario(numero : number)
-  {
+  cargarUsuario(numero: number) {
     {
       this.spinner = true;
       this.campoCargado = true;
-      switch (numero) { 
+      switch (numero) {
         case 1:
           this.formLogin.setValue({
-            email: 'fraugratoippette-2009@yopmail.com',
-            password: '1234567',
+            email: 'gapputitanneu-9916@yopmail.com',
+            password: '444333',
           });
-          break;                            
+          break;
 
         case 2:
           this.formLogin.setValue({
-            email: 'leuripreiveigru-4531@yopmail.com',
-            password: '333321',
+            email: 'frivovipoda-3463@yopmail.com',
+            password: '333444',
           });
           break;
 
         case 3:
           this.formLogin.setValue({
-            email: 'paciente980@gmail.com',
-            password: 'pacienteTest1',
+            email: 'gawalouture-9038@yopmail.com',
+            password: '333444',
           });
-        break;
-        
+          break;
+
         case 4:
           this.formLogin.setValue({
-            email: 'ignacio.dminstrador@gmail.com',
-            password: 'admin1234',
+            email: 'naugaweiweveu-7825@yopmail.com',
+            password: '234123',
           });
           break;
       }
@@ -149,8 +130,5 @@ export class FormLoginComponent {
         this.spinner = false;
       }, 1000);
     } //--------------------------------------------------------------------------------------------------
-    
-
   }
-
 }

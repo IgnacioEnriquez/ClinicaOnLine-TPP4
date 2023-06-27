@@ -1,0 +1,119 @@
+<div class="body-turnos">
+
+    <div class="contenedor-spinner" *ngIf="spinner">
+        <div style="margin-top: 200px;" class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="turnos" *ngIf="!spinner">
+
+        <div class="title-lista">
+            <h2>Lista de Turnos</h2>
+        </div>
+
+        <div class="button-buscar">
+          
+          <label style="
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+          margin-right: 1rem;
+          font-size: 1.5rem;
+        ">Buscar</label>
+          <input 
+          class="input-busqueda" 
+          type="text"
+          [(ngModel)]="palabraBusqueda"            
+          (keyup)="filtrarPorCamposAdministrador()"          
+          placeholder="Ingresar busqueda..." 
+          />
+
+        </div>       
+
+        <div class="contenedor-spinner-tabla" *ngIf="spinnerTabla">
+          <div style="margin-top: 200px;" class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <div class="tabla-usuario text-focus-in" *ngIf="!spinnerTabla">
+            <table class="table">
+                <thead>
+                    <tr>
+                      <th class="table-light" scope="col">Fecha</th>
+                      <th class="table-light" scope="col">Especialista</th>
+                      <th class="table-light" scope="col">Especialidad</th>
+                      <th class="table-light" scope="col">Paciente</th>
+                      <th class="table-light" scope="col">Obra Social</th>
+                      <th class="table-light" scope="col">Estado</th>
+                      <th class="table-light" scope="col">Acción</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr
+            class="tr-tabla table-light"
+            style="cursor: pointer"
+            *ngFor="let turn of turnosFiltrados"
+          >
+            <td>{{formatearFecha(turn.fecha)}}</td>
+            <td>
+              {{ turn.especialista.apellido }} {{ turn.especialista.nombre }}
+            </td>
+            <td>{{ turn.especialidad }}</td>
+            <td>{{ turn.paciente.apellido }} {{ turn.paciente.nombre }}</td>
+            <td>{{ turn.paciente.obraSocial }}</td>
+            <td style="padding-top: 1rem; padding-bottom: 1rem">
+              <span class="estado">{{ turn.estado }}</span>
+            </td>
+
+            <td>
+              <button
+                class="btn btn-secondary btn-cancelar"
+                style="box-shadow: 2px 2px 4px #000"
+                (click)="cancelarTurno(turn)"
+                *ngIf="
+                  turn.estado != 'aceptado' &&
+                  turn.estado != 'realizado' &&
+                  turn.estado != 'rechazado' &&
+                  turn.estado != 'cancelado'
+                "
+              >
+                Cancelar
+              </button>
+              <button
+                class="btn btn-success btn-confirmar"
+                style="margin-left: 1rem; box-shadow: 2px 2px 4px #000"
+                (click)="confirmarCancelacion(turn)"
+                *ngIf="
+                  cancelacionTurno &&
+                  turnoACancelar.fecha.seconds == turn.fecha.seconds
+                "
+              >
+                Confirmar
+              </button>
+              <br />
+              <input
+                type="text"
+                class="form-control"
+                style="margin-top: 0.5rem"
+                placeholder="Comentario de cancelación..."
+                [(ngModel)]="comentarioCancelacion"
+                *ngIf="
+                  cancelacionTurno &&
+                  turnoACancelar.fecha.seconds == turn.fecha.seconds
+                "
+              />
+            </td>
+          </tr>
+
+                  </tbody>
+            </table>
+
+
+
+        </div>
+
+    </div>
+
+</div>

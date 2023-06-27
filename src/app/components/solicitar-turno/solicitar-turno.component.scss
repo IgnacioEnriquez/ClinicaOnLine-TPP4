@@ -1,0 +1,261 @@
+.body-turnos
+{    
+    margin-top: 210px;
+    width: 100%;
+}
+
+.turnos .especialistas,.seleccion-turnos, .pacientes
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-lista
+{
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.title-lista h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding-bottom: 20px;
+  position: relative;
+  color: #2c4964;
+}
+
+.title-lista h2::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: #ddd;
+  bottom: 1px;
+  left: calc(50% - 60px);
+}
+
+.title-lista h2::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #1977cc;
+  bottom: 0;
+  left: calc(50% - 20px);
+}
+
+.contenedor-spinner
+{
+	display: flex;
+    width: 100%;
+    /* height: 1000px; */
+    justify-content: center;	
+
+	.spinner-list
+	{
+
+	--bs-spinner-width: 6rem;
+    --bs-spinner-height: 6rem;
+
+	}
+}
+
+.turnos .especialistas .icon-box,
+.turnos .pacientes .icon-box {
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
+    border: 1px solid #d5e1ed;
+    padding: 80px 20px;
+    transition: all ease-in-out 0.3s;
+  }
+  
+  .turnos .especialistas .icon-box .icon,
+  .turnos .pacientes .icon-box .icon {
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    background: #1977cc;
+    border-radius: 5px;
+    transition: all 0.3s ease-out 0s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transform-style: preserve-3d;
+  }
+  
+  .turnos .especialistas .icon-box .icon i,
+  .turnos .pacientes .icon-box .icon i {
+    color: #fff;
+    font-size: 28px;
+  }
+  
+  .turnos .especialistas .icon-box .icon::before,
+  .turnos .pacientes .icon-box .icon::before {
+    position: absolute;
+    content: "";
+    left: -8px;
+    top: -8px;
+    height: 100%;
+    width: 100%;
+    background: #badaf7;
+    border-radius: 5px;
+    transition: all 0.3s ease-out 0s;
+    transform: translateZ(-1px);
+  }
+  
+  .turnos .especialistas .icon-box h4,
+  .turnos .pacientes .icon-box h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 24px;
+    
+  }
+  
+  .turnos .especialistas .icon-box h4 a,
+  .turnos .pacientes .icon-box h4 a {
+    color: #2c4964;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .turnos .especialistas .icon-box p,
+  .turnos .pacientes .icon-box p {
+    line-height: 24px;
+    font-size: 15px;
+    margin-bottom: 0;
+  }
+  
+  .turnos .especialistas .icon-box:hover,
+  .turnos .pacientes .icon-box:hover {
+    background: #1977cc;
+    border-color: #1977cc;
+  }
+  
+  .turnos .especialistas .icon-box:hover .icon,
+  .turnos .pacientes .icon-box:hover .icon {
+    background: #fff;
+  }
+  
+  .turnos .especialistas .icon-box:hover .icon i,
+  .turnos .pacientes .icon-box:hover .icon i {
+    color: #1977cc;
+  }
+  
+  .turnos .especialistas .icon-box:hover .icon::before,
+  .turnos .pacientes .icon-box:hover .icon::before {
+    background: #3291e6;
+  }
+  
+  .turnos .especialistas .icon-box:hover h4 a,
+  .turnos .especialistas .icon-box:hover p,
+  .turnos .pacientes .icon-box:hover h4 a,
+  .turnos .pacientes .icon-box:hover p {
+    color: #fff;
+  }
+
+  .input-busqueda {
+    width: 15rem;
+    border: 3px solid rgb(0, 119, 255);
+    border-radius: 10px;
+    height: 2rem;
+    padding-left: 1rem;
+    box-shadow: 2px 2px 4px #000;
+  }
+  
+  .input-busqueda:focus {
+    border: 3px solid rgb(0, 119, 255);
+    box-shadow: 0 0 12px #0099ff;
+    transition: box-shadow 0.5s;
+  }
+
+  .container-especialistas,.container-pacientes
+{
+  margin-bottom: 20px;
+}
+
+.card-horarios
+{
+  width: 100%;
+  height: 350px; 
+  display: flex;
+}
+
+.perfil-especialista,.horarios-especialista
+{  
+  height: 100%;
+  margin: 5px;  
+}
+
+.horarios-especialista
+{
+  width: 60%;
+}
+
+.perfil-especialista
+{
+  width: 40%;  
+  display: flex;
+  justify-content:center; 
+}
+
+.card-esp {
+  /* Add shadows to create the "card-esp" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 325px;
+  height: 100%;
+  display: flex;
+  /* align-content: center; */
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card-esp:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+.container-dias
+{
+  height: 40%;
+  width: 100%;
+}
+
+.container-horas 
+{
+  padding-top: 10px;
+  height: 60%;
+  width: 100%; 
+}
+
+.spinner-horarios
+{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;	
+
+  .spinner-border 
+	{
+		--bs-spinner-width: 6rem;
+    --bs-spinner-height: 6rem;
+
+	}
+
+}
+  

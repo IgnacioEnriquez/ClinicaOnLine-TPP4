@@ -16,7 +16,7 @@ input[type=file]::file-selector-button {
 input {
 	background-color: #eee;
     border: none;
-    padding: 10px 15px;
+	padding: 5px 10px;
     /* margin: 8px 0; */
     // margin-top: 10px;
     // margin-left: 8px;
@@ -72,6 +72,18 @@ button.ghost {
 	margin-top: 0px;
 }
 
+.mensaje-error-small
+{
+	background: rgba(255, 0, 0, 0.74);
+	color: #fff;
+	padding: 0px 5px;
+	border-radius: 5px;
+	text-shadow: 1px 1px #000;
+	font-size: 9.9px;
+	margin-top: 0px;
+
+}
+
 .form-control
 {
 	margin-bottom: 10px;
@@ -89,3 +101,15 @@ button.ghost {
 	--bs-spinner-width: 1rem;
     --bs-spinner-height: 1rem;
 }
+
+.captcha {
+	font-size: 1rem;
+    text-align: center;
+    color: black;
+    background: #1977cc;
+    padding: 0.6rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px #fff;
+  }

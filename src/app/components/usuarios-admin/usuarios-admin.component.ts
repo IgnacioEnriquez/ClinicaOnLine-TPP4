@@ -16,6 +16,11 @@ export class UsuariosAdminComponent {
   formEspecialista: boolean = false;
   formAdministrador: boolean = false;
   spinner: boolean = true;
+  emailUsuarioAux = "";
+  passwordUsuarioAux = "";
+  tipoRegistro = 2;
+
+  
 
   constructor(
     private authService: AuthService,
@@ -32,7 +37,18 @@ export class UsuariosAdminComponent {
       this.spinner = false;
       this.listadoUsuarios = true; 
       console.log(this.usersList);      
-    });    
+    });  
+
+    this.authService.user$.subscribe((user : any)=>
+    {
+      if(user)
+      {
+        this.emailUsuarioAux = user.email;
+        this.passwordUsuarioAux = user.password;    
+      }
+    })   
+
+       
   } //--------------------------------------------------------------------------------------------------
 
   updateUser(user: User, option: number)
@@ -59,7 +75,7 @@ export class UsuariosAdminComponent {
 
   mostrarCreacionPaciente()
   {
-    this.notificationService.showWarning("Al crear un usuario en esta parte del sistema, se inicia sesion automaticamente","Aviso de Registro");
+    this.notificationService.showWarning("Al crear un usuario en esta parte del sistema, se volvera al inicio","Aviso de Registro");
     this.formPaciente = true;
     this.formEspecialista = false;
     this.formAdministrador = false;
@@ -99,4 +115,5 @@ export class UsuariosAdminComponent {
     this.listadoUsuarios = true; 
     
   } //--------------------------------------------------------------------------------------------------
+  
 }

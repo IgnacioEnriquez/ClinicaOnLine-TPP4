@@ -24,6 +24,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import { UsuariosAdminComponent } from './components/usuarios-admin/usuarios-admin.component';
 import { FormAltaAdministradorComponent } from './components/form-alta-administrador/form-alta-administrador.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
+import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-turno.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { HorariosEspecialistaComponent } from './components/horarios-especialista/horarios-especialista.component';
+import { TurnosComponent } from './components/turnos/turnos.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 
@@ -39,7 +45,13 @@ import { FormLoginComponent } from './components/form-login/form-login.component
     FormAltaEspecialistaComponent,
     UsuariosAdminComponent,
     FormAltaAdministradorComponent,
-    FormLoginComponent, 
+    FormLoginComponent,
+    MisTurnosComponent,
+    SolicitarTurnoComponent,
+    MiPerfilComponent,
+    HorariosEspecialistaComponent,
+    TurnosComponent,
+    NavbarComponent, 
   ],
   imports: [
     BrowserModule,

@@ -10,36 +10,73 @@
 
     <div class="listado-div container" *ngIf="listadoUsuarios && !spinner">
         <div class="text-center">
-            <h1>Lista de Usuarios</h1>
+          <div class="title-lista">
+            <h2>Lista de Usuarios</h2>
+          </div>            
             <div *ngIf="listadoUsuarios" class="boton-agregar">
                 <button (click)="mostrarCreacionPaciente()" class="button-56" role="button">Registrar Nuevo Usuario</button>
             </div>
         </div>
-        <ol class="list-group list-group-numbered" *ngFor="let user of usersList">            
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">{{ user.perfil.toUpperCase()  }}</div>
-                Nombre: {{ user.nombre }} {{ user.apellido }}
-              </div>
-              <div *ngIf="user.perfil == 'especialista'">
-                <button
-                  class="btn btn-success"
-                  *ngIf="!user.aprobado"
-                  (click)="updateUser(user, 1)"
-                >
-                  Habilitar
-                </button>
-                <button
-                  class="btn btn-danger"
-                  *ngIf="user.aprobado"
-                  (click)="updateUser(user, 2)"
-                >
-                  Deshabilitar
-                </button>
-              </div>            
-              <img style="width: 60px; height: 60px;" src="{{ user.imagen1 }}" alt="">
-            </li>
-          </ol>
+        
+        <div class="table-usuarios">
+          
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">IMAGEN</th>
+                <th scope="col">PERFIL</th>
+                <th scope="col">NOMBRE</th>
+                <th scope="col">APELLIDO</th>
+                <th scope="col">ACCIÓN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tr-tabla" *ngFor="let user of usersList">
+                <td>                
+                    <img              
+                      style="width: 60px;"        
+                      src="{{ user.imagen1 }}"
+                      alt="imagen"
+                    />                              
+                </td>
+  
+                <td style="text-transform: upperCase">
+                  <span>{{ user.perfil }}</span>
+                </td>
+                <td>
+                  <span>{{ user.nombre }}</span>
+                </td>
+                <td>
+                  <span>{{ user.apellido }}</span>
+                </td>
+                <td>
+                  <div *ngIf="user.perfil == 'especialista'">
+                    <button
+                      class="btn-habilitar"
+                      *ngIf="!user.aprobado"
+                      (click)="updateUser(user, 1)"
+                    >
+                      Habilitar
+                    </button>
+                    <button
+                      class="btn-deshabilitar"
+                      *ngIf="user.aprobado"
+                      (click)="updateUser(user, 2)"
+                    >
+                      Deshabilitar
+                    </button>
+                  </div>                
+                </td>
+  
+  
+  
+              </tr>
+  
+  
+            </tbody>
+          </table>      
+        </div>
+
     </div>
 
     <div class="alta-paciente-div" *ngIf="!listadoUsuarios && !spinner">
@@ -58,9 +95,9 @@
             </div>
          
         <div class="container" >            
-            <app-form-alta-paciente *ngIf="formPaciente"></app-form-alta-paciente>
-            <app-form-alta-especialista *ngIf="formEspecialista"></app-form-alta-especialista>
-            <app-form-alta-administrador *ngIf="formAdministrador"></app-form-alta-administrador>
+            <app-form-alta-paciente [tipoRegistro]="tipoRegistro" *ngIf="formPaciente"></app-form-alta-paciente>
+            <app-form-alta-especialista [tipoRegistro]="tipoRegistro" *ngIf="formEspecialista"></app-form-alta-especialista>
+            <app-form-alta-administrador [tipoRegistro]="tipoRegistro" *ngIf="formAdministrador"></app-form-alta-administrador>
 
         </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -11,11 +11,13 @@ import { User } from 'src/app/models/user';
   styleUrls: ['./form-alta-paciente.component.scss']
 })
 export class FormAltaPacienteComponent {
-
+  
+  @Input() tipoRegistro: any = 1;
   formPaciente: FormGroup;
   newPaciente: User = new User(); 
   spinner: boolean = false;
-
+  captcha: string = '';
+  
   constructor(
     private formBuilder: FormBuilder,
     private angularFireStorage: AngularFireStorage,
@@ -29,42 +31,58 @@ export class FormAltaPacienteComponent {
       dni: ['', [Validators.required]],
       obraSocial: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]],     
+      password: ['', [Validators.required]], 
+      captcha: ['', [Validators.required]],    
     });   
+    this.captcha = this.generateRandomString(6);
   } //--------------------------------------------------------------------------------------------------
-
+  
   registrarPaciente()
   {
     if (this.formPaciente.valid) 
     {
-      if (this.newPaciente.imagen1 != '' && this.newPaciente.imagen2 != '')
+      if (
+        this.captcha.toLocaleLowerCase().trim() ==
+        this.formPaciente.getRawValue().captcha.toLocaleLowerCase().trim()
+      )
       {
-        this.spinner = true;
-        this.spinner = true;
-          this.newPaciente.perfil = 'paciente';
-          this.newPaciente.nombre = this.formPaciente.getRawValue().nombre;
-          this.newPaciente.apellido = this.formPaciente.getRawValue().apellido;
-          this.newPaciente.edad = this.formPaciente.getRawValue().edad;
-          this.newPaciente.dni = this.formPaciente.getRawValue().dni;
-          this.newPaciente.obraSocial =
-            this.formPaciente.getRawValue().obraSocial;
-          this.newPaciente.email = this.formPaciente.getRawValue().email;
-          this.newPaciente.password = this.formPaciente.getRawValue().password;
-          this.authService.registerNewUser(this.newPaciente);
-        setTimeout(() => {
-          this.spinner = false;
-          this.formPaciente.reset();
-          this.newPaciente = new User();
-        }, 2000);
+        
+              if (this.newPaciente.imagen1 != '' && this.newPaciente.imagen2 != '')
+              {
+                this.spinner = true;
+                  this.newPaciente.perfil = 'paciente';
+                  this.newPaciente.nombre = this.formPaciente.getRawValue().nombre;
+                  this.newPaciente.apellido = this.formPaciente.getRawValue().apellido;
+                  this.newPaciente.edad = this.formPaciente.getRawValue().edad;
+                  this.newPaciente.dni = this.formPaciente.getRawValue().dni;
+                  this.newPaciente.obraSocial =
+                    this.formPaciente.getRawValue().obraSocial;
+                  this.newPaciente.email = this.formPaciente.getRawValue().email;
+                  this.newPaciente.password = this.formPaciente.getRawValue().password;
+                  this.authService.registerNewUser(this.newPaciente,this.tipoRegistro);                 
+                    
+                setTimeout(() => {
+                  this.spinner = false;
+                  this.formPaciente.reset();
+                  this.newPaciente = new User();
+                 
+                }, 2000);
+              }
+              else
+              {
+                this.notificationService.showWarning(
+                  'Debes agregar 2 imagenes para su perfil',
+                  'Registro Paciente'
+                );
+              }          
       }
-      else
-      {
+      else {
         this.notificationService.showWarning(
-          'Debes agregar 2 imagenes para su perfil',
+          'El CAPTCHA no coincide',
           'Registro Paciente'
         );
+        this.captcha = this.generateRandomString(6);
       }
-      
 
     } else {
       this.notificationService.showWarning(
@@ -91,5 +109,18 @@ export class FormAltaPacienteComponent {
     });
   } //--------------------------------------------------------------------------------------------------
 
+  
+  generateRandomString(num: number) {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result1 = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      result1 += characters.charAt(
+        Math.floor(Math.random() * charactersLength)
+      );
+    }
+    return result1;
+  }//--------------------------------------------------------------------------------------------------
   
 }

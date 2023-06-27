@@ -31,7 +31,7 @@ export class NotificationService {
     if (!config) {
       this.toastr.info(message, title, {
         timeOut: 2000,
-        positionClass: 'toast-bottom-right',
+        positionClass: 'toast-bottom-left',
       });
     } else {
       this.toastr.info(message, title, config);

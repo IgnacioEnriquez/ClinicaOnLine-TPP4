@@ -1,0 +1,127 @@
+<div class="body-perfil">
+
+    <div class="contenedor-spinner" *ngIf="spinner">
+        <div style="margin-top: 200px;" class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container mt-5" *ngIf="!spinner">
+
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card p-3 py-4" *ngIf="!misHorariosScreen">
+
+                    <div class="text-center">
+                        <img style="border: 3px solid #1977cc;" src="{{ user.imagen1 }}" width="100"
+                            class="rounded-circle">
+                        <img style="margin-left: 10px; border: 3px solid #1977cc;" src="{{ user.imagen2 }}" width="100"
+                            class="rounded-circle" *ngIf="isPaciente">
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <span class="bg-secondary p-1 px-4 rounded text-white">{{ user.perfil.toUpperCase() }}</span>
+
+
+                        <div class="px-4 mt-1" *ngIf="authService.isAdmin">
+                            <div class="row">
+                                <label>Email</label>
+                                <p>{{ user.email }}</p>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label>Nombre</label>
+                                    <p>{{ user.nombre }}</p>
+                                    <label>Apellido</label>
+                                    <p>{{ user.apellido }}</p>
+
+                                </div>
+                                <div class="col">
+                                    <label>DNI</label>
+                                    <p>{{ user.dni }}</p>
+                                    <label>Edad</label>
+                                    <p>{{ user.edad }} años</p>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="px-4 mt-1" *ngIf="isPaciente">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>Nombre</label>
+                                    <p>{{ user.nombre }}</p>
+                                    <label>Apellido</label>
+                                    <p>{{ user.apellido }}</p>
+                                    <label>Obra Social</label>
+                                    <p>{{ user.obraSocial }}</p>
+
+                                </div>
+                                <div class="col">
+                                    <label>DNI</label>
+                                    <p>{{ user.dni }}</p>
+                                    <label>Edad</label>
+                                    <p>{{ user.edad }} años</p>
+                                    <label>Email</label>
+                                    <p>{{ user.email }}</p>
+                                </div>
+                            </div>
+
+
+ 
+
+
+                        </div>
+
+                        <div class="px-4 mt-1" *ngIf="isEspecialista">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label>Nombre</label>
+                                    <p>{{ user.nombre }}</p>
+                                    <label>Apellido</label>
+                                    <p>{{ user.apellido }}</p>
+                                    <label>Especialidad</label>
+                                    <p>{{ user.especialidad.nombre }}</p>
+
+                                </div>
+                                <div class="col">
+                                    <label>DNI</label>
+                                    <p>{{ user.dni }}</p>
+                                    <label>Edad</label>
+                                    <p>{{ user.edad }} años</p>
+                                    <label>Email</label>
+                                    <p>{{ user.email }}</p>
+                                </div>                                                               
+
+                            </div>
+
+                            <div class="row">                                
+                                <button (click)="goToMisHorarios()" type="button" class="btn-horarios btn btn-primary">Mis Horarios</button>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="card p-3 py-4" *ngIf="misHorariosScreen">
+                    <app-horarios-especialista (actualizarScreen)="actualizarScreenEvent($event)" ></app-horarios-especialista>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    

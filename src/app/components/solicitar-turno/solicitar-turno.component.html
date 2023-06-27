@@ -1,0 +1,141 @@
+<div class="body-turnos">
+
+    <div class="contenedor-spinner" *ngIf="spinner">
+        <div style="margin-top: 200px;" class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="turnos" *ngIf="!spinner">
+
+        <div class="title-lista">
+            <h2>SOLICITAR TURNO</h2>
+        </div>
+
+        <div class="pacientes" *ngIf="seleccionPacienteMenu">
+            <h3>Pacientes</h3>
+
+            <div class="container-pacientes container">
+
+                <div class="row">
+
+                    <div class="col-3 align-items-stretch" *ngFor="let pac of listaPacientes">
+                        <div (click)="mostrarPaciente(pac)" class="icon-box">
+                            <div class="icon"><img style="width: 95px; height: 95px;" src="{{pac.imagen1}}" alt="">
+                            </div>
+                            <h4><a >{{pac.nombre}} {{pac.apellido}}</a></h4>                   
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="especialistas" *ngIf="!seleccionTurnoMenu && !seleccionPacienteMenu">
+            <h3>Especialistas</h3>
+
+            <div class="button-buscar">
+                <label style="
+                    margin-top: 1rem;
+                    margin-bottom: 1rem;
+                    margin-right: 1rem;
+                    font-size: 1.5rem;
+                  ">Especialidad</label>
+
+                <input class="input-busqueda" type="text" [(ngModel)]="palabraBusqueda"
+                    (keyup)="filtrarPorCamposEspecialidad()" placeholder="Filtrar por Especialidad ..." />
+            </div>
+
+            <div class="container-especialistas container">
+
+                <div class="row">
+
+                    <div class="col-3 align-items-stretch" *ngFor="let esp of especialistasFiltrados">
+                        <div (click)="mostrarTurnos(esp)" class="icon-box">
+                            <div class="icon"><img style="width: 95px; height: 95px;" src="{{esp.imagen1}}" alt="">
+                            </div>
+                            <h4><a>{{esp.especialidad.nombre.toUpperCase()}}</a></h4>
+                            <p>{{esp.nombre}} - {{esp.apellido}}</p>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="seleccion-turnos" *ngIf="seleccionTurnoMenu && !seleccionPacienteMenu">
+            <h3>Seleccion de Turnos</h3>
+
+            <div class="card-horarios">
+
+                <div class="perfil-especialista">
+
+                    <div class="card-esp">
+                        <img src="{{especialistaActivo.imagen1}}" alt="Avatar" style="width:200px; height: 200px;">
+                        <div class="container" style="display: flex;flex-direction: column; align-items: center;">
+                            <h4><b>{{especialistaActivo.nombre}} {{especialistaActivo.apellido}}</b></h4>
+                            <p>{{especialistaActivo.especialidad.nombre}}</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="horarios-especialista">
+
+                    <div class="container-dias container text-start">
+
+                        <button type="button" class="btn btn-success" style="margin: 5px;"
+                            *ngFor="let dia of listaDiasAMostrar"
+                            (click)="cargarHorasLibresUnDia(dia)">{{formatearFecha(dia)}}</button>
+
+                    </div>
+
+                    <div class="container-horas container">
+
+                        <div class="lista-horarios" *ngIf="HorariosActivos">
+                            <button class="btn btn-primary" style="
+                                width: 4.5rem;
+                                height: 2.5rem;
+                                border-radius: 1rem;
+                                margin: 0.1rem;" *ngFor="let turno of listaTurnosDeUnDiaAMostrar"
+                                (click)="seleccionarTurno(turno)">
+                                {{formatearHora(turno.fecha)}}
+                            </button>
+
+                            <p *ngIf="listaTurnosDeUnDiaAMostrar.length == 0 && !spinnerHorarios"
+                                style="text-align: center">
+                                No hay turnos disponibles
+                            </p>
+
+                            <button 
+                            *ngIf="botonPedirTurno" 
+                            class="btn btn-primary"
+                                
+                            style="margin-top: 1rem; width: 100%" 
+                            (click)="solicitarTurno()">
+                                Solicitar Turno
+                            </button>
+
+                        </div>
+
+
+                        <div class="spinner-horarios" *ngIf="spinnerHorarios">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

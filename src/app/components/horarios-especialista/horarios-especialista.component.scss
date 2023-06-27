@@ -1,0 +1,46 @@
+.container-dias
+  {
+    display: flex;
+    justify-content: center;
+
+    .dias
+    {
+      margin: 4px;
+      width: 120px;
+      height: 70px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+  }
+
+.horarios-div
+{
+  margin-top: 10px;
+}
+
+.input-duracion 
+{
+  display: flex;
+    flex-direction: column;
+    /* align-content: center; */
+    justify-content: center;
+    align-items: center;
+}
+
+.form-control
+{
+  width: 500px;
+}
+
+.btn-guardar
+{
+  margin-top: 10px;
+}
+
+.button-back
+{  
+  background-color: transparent;
+  border: none; 
+
+}

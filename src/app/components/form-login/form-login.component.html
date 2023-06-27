@@ -1,84 +1,89 @@
-<h1 class="titulo-sign-in">INICIAR SESION</h1>
-<span class="subtitulo-sign-in">Ingrese su cuenta</span>
 
-<form class="form-sign-in" [formGroup]="formLogin" (ngSubmit)="loginUser()">
-
-
-    <div class="row">
-
-        <div class="col-12">
-
-            <input [ngClass]="formLogin.controls['email'].errors?.['required'] &&
-				formLogin.controls['email'].touched ? 'margin-deleted' : '' " class="form-control" formControlName="email"
-                id="email" type="email" placeholder="Email" />
-            <small class="mensaje-error" *ngIf="
-							formLogin.controls['email'].errors?.['required'] &&
-							formLogin.controls['email'].touched
-										">
-                El email es requerido
-            </small>
-
-
+<div class="form">
+    
+    <h1 class="titulo-sign-in">INICIAR SESION</h1>
+    <span class="subtitulo-sign-in">Ingrese su cuenta</span>
+    
+    <form class="form-sign-in" [formGroup]="formLogin" (ngSubmit)="loginUser()">
+    
+    
+        <div class="row">
+    
+            <div class="col-12">
+    
+                <input [ngClass]="formLogin.controls['email'].errors?.['required'] &&
+                    formLogin.controls['email'].touched ? 'margin-deleted' : '' " class="form-control" formControlName="email"
+                    id="email" type="email" placeholder="Email" />
+                <small class="mensaje-error" *ngIf="
+                                formLogin.controls['email'].errors?.['required'] &&
+                                formLogin.controls['email'].touched
+                                            ">
+                    El email es requerido
+                </small>
+    
+    
+            </div>
+    
+            <div class="col-12">
+                <input [ngClass]="formLogin.controls['password'].errors?.['required'] &&
+                formLogin.controls['password'].touched ? 'margin-deleted' : '' " class="form-control"
+                    formControlName="password" id="password" type="password" placeholder="Password" />
+                <small class="mensaje-error" *ngIf="
+                            formLogin.controls['password'].errors?.['required'] &&
+                            formLogin.controls['password'].touched
+                                        ">
+                    El password es requerido
+                </small>
+    
+            </div>
+    
         </div>
-
-        <div class="col-12">
-            <input [ngClass]="formLogin.controls['password'].errors?.['required'] &&
-            formLogin.controls['password'].touched ? 'margin-deleted' : '' " class="form-control"
-                formControlName="password" id="password" type="password" placeholder="Password" />
-            <small class="mensaje-error" *ngIf="
-                        formLogin.controls['password'].errors?.['required'] &&
-                        formLogin.controls['password'].touched
-                                    ">
-                El password es requerido
-            </small>
-
+    
+    
+        <button [disabled]="spinner" class="button-signup">
+            <div *ngIf="spinner" class="spinner-border" role="status">
+    
+                <span class="spinner visually-hidden">Loading...</span>
+    
+            </div>Iniciar Sesion
+        </button>
+    
+    
+    </form>
+    
+    <div class="social-container sign-in">
+        <div class="button-especialista">
+    
+            <button (click)="cargarUsuario(1)" class="btn-89">
+                <img src="../../../assets/ICON-ESPECIALISTA-1.png" alt="">
+            </button>
+            <label class="label-button-fast">Especialista 1</label>
+    
         </div>
-
+    
+        <div class="button-paciente">
+            <button (click)="cargarUsuario(2)" class="btn-89">
+                <img src="../../../assets/ICON-ESPECIALISTA-2.png" alt="">
+            </button>
+            <label class="label-button-fast">Especialista 2</label>
+    
+        </div>
+    
+        <div class="button-paciente">
+            <button (click)="cargarUsuario(3)" class="btn-89">
+                <img src="../../../assets/ICON-PACIENTE-1.png" alt="">
+            </button>
+            <label class="label-button-fast">Paciente</label>
+    
+        </div>
+    
+        <div class="button-paciente">
+            <button (click)="cargarUsuario(4)" class="btn-89">
+                <img src="../../../assets/ICON-PACIENTE-2.png" alt="">
+            </button>
+            <label class="label-button-fast">Administrador</label>
+    
+        </div>
     </div>
-
-
-    <button [disabled]="spinner" class="button-signup">
-        <div *ngIf="spinner" class="spinner-border" role="status">
-
-            <span class="spinner visually-hidden">Loading...</span>
-
-        </div>Iniciar Sesion
-    </button>
-
-
-</form>
-
-<div class="social-container sign-in">
-    <div class="button-especialista">
-
-        <button (click)="cargarUsuario(1)" class="btn-89">
-            <img src="../../../assets/ICON-ESPECIALISTA-1.png" alt="">
-        </button>
-        <label class="label-button-fast">Especialista 1</label>
-
-    </div>
-
-    <div class="button-paciente">
-        <button (click)="cargarUsuario(2)" class="btn-89">
-            <img src="../../../assets/ICON-ESPECIALISTA-2.png" alt="">
-        </button>
-        <label class="label-button-fast">Especialista 2</label>
-
-    </div>
-
-    <div class="button-paciente">
-        <button (click)="cargarUsuario(3)" class="btn-89">
-            <img src="../../../assets/ICON-PACIENTE-1.png" alt="">
-        </button>
-        <label class="label-button-fast">Paciente</label>
-
-    </div>
-
-    <div class="button-paciente">
-        <button (click)="cargarUsuario(4)" class="btn-89">
-            <img src="../../../assets/ICON-PACIENTE-2.png" alt="">
-        </button>
-        <label class="label-button-fast">Administrador</label>
-
-    </div>
+    
 </div>

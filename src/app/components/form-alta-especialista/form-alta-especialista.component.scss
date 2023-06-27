@@ -88,3 +88,15 @@ button.ghost {
     --bs-spinner-height: 1rem;
 }
 
+.captcha {
+	font-size: 1rem;
+    text-align: center;
+    color: black;
+    background: #1977cc;
+    padding: 0.6rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    text-shadow: 1px 1px 1px #fff;
+  }
+
