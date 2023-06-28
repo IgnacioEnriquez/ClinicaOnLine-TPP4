@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import * as FileSaver from 'file-saver';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
+const EXCEL_TYPE =
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'app-usuarios-admin',
@@ -11,15 +17,17 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class UsuariosAdminComponent {
 
   usersList: any[] = [];
+  historialClinico: any[] = [];
+  historialActivo: any[] = [];
+
   listadoUsuarios: boolean = false;
   formPaciente: boolean = false;
   formEspecialista: boolean = false;
   formAdministrador: boolean = false;
   spinner: boolean = true;
-  emailUsuarioAux = "";
-  passwordUsuarioAux = "";
+  
+  hayHistorial: boolean = false;  
   tipoRegistro = 2;
-
   
 
   constructor(
@@ -37,18 +45,7 @@ export class UsuariosAdminComponent {
       this.spinner = false;
       this.listadoUsuarios = true; 
       console.log(this.usersList);      
-    });  
-
-    this.authService.user$.subscribe((user : any)=>
-    {
-      if(user)
-      {
-        this.emailUsuarioAux = user.email;
-        this.passwordUsuarioAux = user.password;    
-      }
-    })   
-
-       
+    });            
   } //--------------------------------------------------------------------------------------------------
 
   updateUser(user: User, option: number)
@@ -115,5 +112,62 @@ export class UsuariosAdminComponent {
     this.listadoUsuarios = true; 
     
   } //--------------------------------------------------------------------------------------------------
+
+  verHistorialPaciente(paciente: any) {
+    this.historialActivo = [];
+    for (let i = 0; i < this.historialClinico.length; i++) {
+      const historial = this.historialClinico[i];
+      if (historial.paciente.id == paciente.id) {
+        this.historialActivo.push(historial);
+      }
+    }
+  }
+
+  descargarExcel() {
+
+    let listaUsuariosAux : any = [];
+
+    this.usersList.forEach(usuario => {      
+        listaUsuariosAux.push(usuario);           
+    });
+
+    listaUsuariosAux.forEach((usuarioAux : any) => {
+
+      if(usuarioAux.perfil === "especialista")
+      {        
+        usuarioAux.especialidad = usuarioAux.especialidad.nombre;        
+      }
+    });
+
+    console.log(listaUsuariosAux);
+    console.log(this.usersList);
+
+    this.exportAsExcelFile(this.usersList, 'listadoUsuarios');
+    this.notificationService.showSuccess(
+      'Listado de Usuarios descargado',
+      'Usuarios'
+    );
+  }
+
+  exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { data: worksheet },
+      SheetNames: ['data'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(
+      data,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
+  }
   
 }

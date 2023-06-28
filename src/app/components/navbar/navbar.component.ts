@@ -86,6 +86,11 @@ export class NavbarComponent {
     this.router.navigate(['/turnos']);
   }//--------------------------------------------------------------------------------------------------
 
+  goToPacientes()
+  {
+    this.router.navigate(['/pacientes']);
+  }//--------------------------------------------------------------------------------------------------
+
   cerrarSesion() {
     this.authService.userLogout();
     this.user = null;

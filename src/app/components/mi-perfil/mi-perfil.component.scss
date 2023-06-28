@@ -1,6 +1,6 @@
 .body-perfil
 {
-    margin-top: 210px;
+    margin-top: 180px;
     width: 100%;
 }
 
@@ -132,4 +132,34 @@ p {
   
 .btn-horarios:hover {
     background: rgb(25,119,204) ;
+  }
+
+  .dias-contenedor {
+    button {
+      width: 6rem;
+      margin-top: 0.5rem;
+      margin-left: 0.5rem;
+      text-shadow: 1px 1px #000;
+    }
+    button:hover {
+      background: rgb(255, 119, 119);
+      transition: background 0.5s;
+    }
+  }
+  
+  .carta-historial {
+    h3 {
+      color: #fff;
+      background: rgb(53, 53, 53);
+      font-weight: bolder;
+      padding: 1rem;
+    }
+  
+    span {
+      font-weight: bolder;
+    }
+  }
+  
+  .col-horarios-2 {
+    display: none;
   }

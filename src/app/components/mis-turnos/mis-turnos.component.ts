@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -9,6 +9,9 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./mis-turnos.component.scss'],
 })
 export class MisTurnosComponent {
+
+  formHistorial: FormGroup;
+
   spinner: boolean = false;
   spinnerTabla: boolean = false;
   user: any = null;
@@ -31,23 +34,39 @@ export class MisTurnosComponent {
   listaTurnosDelPaciente: any[] = [];
   listaPacientesDelEspecialista: any[] = [];
   auxPacientesDelEspecialista: any[] = [];  
+  arrayClaveValorAdicionales: any[] = [];
+
+  dato1: string[] = ['clave 1', 'valor 1'];
+  dato2: string[] = ['clave 2', 'valor 2'];
+  dato3: string[] = ['clave 3', 'valor 3'];
 
   turnoACancelar: any = {};
   turnoACalificar: any = {};
   turnoAFinalizar: any = {};
-  turnoFinalizado: any = {};
+  turnoFinalizado: any = {};   
 
   comentarioCancelacion: string = '';
   comentarioCalificacion: string = '';
   comentarioFinalizacion: string = '';
   palabraBusqueda: string = '';
+
+  cantidadClaveValor: number = 0;
   
 
   constructor(
     private authService: AuthService,
     private notificationService: NotificationService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+
+    this.formHistorial = this.formBuilder.group({
+      altura: ['', [Validators.required]],
+      peso: ['', [Validators.required]],
+      temperatura: ['', [Validators.required]],
+      presion: ['', [Validators.required]],
+    });
+
+  }
 
   ngOnInit() {
     this.spinner = true;
@@ -399,7 +418,8 @@ export class MisTurnosComponent {
     } else {
       const busqueda = this.palabraBusqueda.trim().toLocaleLowerCase();
       for (let i = 0; i < this.listaTurnosDelPaciente.length; i++) {
-        const turno = this.listaTurnosDelPaciente[i];        
+        const turno = this.listaTurnosDelPaciente[i];
+        const fechaBusqueda = this.transformarFechaParaBusqueda(turno.fecha);
         if (
           turno.especialista.nombre.toLocaleLowerCase().includes(busqueda) ||
           turno.especialista.apellido.toLocaleLowerCase().includes(busqueda) ||
@@ -407,7 +427,8 @@ export class MisTurnosComponent {
           turno.estado.toLocaleLowerCase().includes(busqueda) ||
           turno.paciente.nombre.toLocaleLowerCase().includes(busqueda) ||
           turno.paciente.apellido.toLocaleLowerCase().includes(busqueda) ||
-          turno.paciente.obraSocial.toString().toLocaleLowerCase().includes(busqueda) ||         
+          turno.paciente.obraSocial.toString().toLocaleLowerCase().includes(busqueda) ||
+          fechaBusqueda.includes(busqueda) ||
           turno?.detalle?.altura?.toString().includes(busqueda) ||
           turno?.detalle?.peso?.toString().includes(busqueda) ||
           turno?.detalle?.temperatura?.toString().includes(busqueda) ||
@@ -428,12 +449,12 @@ export class MisTurnosComponent {
   filtrarPorCamposEspecialista() {
     this.listaTurnosFiltrados = [];
     if (this.palabraBusqueda == '') {
-      this.listaTurnosFiltrados = [...this.listaTurnosEspecialista];
+      this.listaTurnosFiltrados = [...this.listaTurnosDelEspecialista];
     } else {
       const busqueda = this.palabraBusqueda.trim().toLocaleLowerCase();
-      for (let i = 0; i < this.listaTurnosEspecialista.length; i++) {
-        const turno = this.listaTurnosEspecialista[i];
-       
+      for (let i = 0; i < this.listaTurnosDelEspecialista.length; i++) {
+        const turno = this.listaTurnosDelEspecialista[i];
+        const fechaBusqueda = this.transformarFechaParaBusqueda(turno.fecha);
         if (
           turno.especialista.nombre.toLocaleLowerCase().includes(busqueda) ||
           turno.especialista.apellido.toLocaleLowerCase().includes(busqueda) ||
@@ -441,7 +462,8 @@ export class MisTurnosComponent {
           turno.estado.toLocaleLowerCase().includes(busqueda) ||
           turno.paciente.nombre.toLocaleLowerCase().includes(busqueda) ||
           turno.paciente.apellido.toLocaleLowerCase().includes(busqueda) ||
-          turno.paciente.obraSocial.toLocaleLowerCase().includes(busqueda) ||         
+          turno.paciente.obraSocial.toString().toLocaleLowerCase().includes(busqueda) ||
+          fechaBusqueda.includes(busqueda) ||
           turno?.detalle?.altura?.toString().includes(busqueda) ||
           turno?.detalle?.peso?.toString().includes(busqueda) ||
           turno?.detalle?.temperatura?.toString().includes(busqueda) ||
@@ -459,4 +481,118 @@ export class MisTurnosComponent {
     }
   }//--------------------------------------------------------------------------------------------------
   
+  abrirFormHistorialClinico(turno: any) {
+    this.turnoFinalizado = { ...turno };
+  }//--------------------------------------------------------------------------------------------------
+
+  agregarClaveValor() {
+    if (this.cantidadClaveValor < 3) {
+      this.cantidadClaveValor++;
+      if (this.cantidadClaveValor == 1) {
+        this.arrayClaveValorAdicionales.push(this.dato1);
+      } else if (this.cantidadClaveValor == 2) {
+        this.arrayClaveValorAdicionales.push(this.dato2);
+      } else {
+        this.arrayClaveValorAdicionales.push(this.dato3);
+      }
+    }
+  }
+
+  crearHistorialClinico() {
+    if (this.formHistorial.valid) {
+      let detalle: any = {
+        altura: this.formHistorial.getRawValue().altura,
+        peso: this.formHistorial.getRawValue().peso,
+        temperatura: this.formHistorial.getRawValue().temperatura,
+        presion: this.formHistorial.getRawValue().presion,
+      };
+
+      let detalleAdicional: any = {};
+      if (this.arrayClaveValorAdicionales.length == 1) {
+        detalleAdicional.clave1 = this.dato1[0];
+        detalleAdicional.valor1 = this.dato1[1];
+      }
+      if (this.arrayClaveValorAdicionales.length == 2) {
+        detalleAdicional.clave1 = this.dato1[0];
+        detalleAdicional.valor1 = this.dato1[1];
+        detalleAdicional.clave2 = this.dato2[0];
+        detalleAdicional.valor2 = this.dato2[1];
+      }
+      if (this.arrayClaveValorAdicionales.length == 3) {
+        detalleAdicional.clave1 = this.dato1[0];
+        detalleAdicional.valor1 = this.dato1[1];
+        detalleAdicional.clave2 = this.dato2[0];
+        detalleAdicional.valor2 = this.dato2[1];
+        detalleAdicional.clave3 = this.dato3[0];
+        detalleAdicional.valor3 = this.dato3[1];
+      }
+
+      this.turnoFinalizado.detalle = detalle;
+      this.turnoFinalizado.detalleAdicional = detalleAdicional;
+      this.spinner = true;
+      this.modificarTurnoFinalizado(this.turnoFinalizado);
+      this.authService
+        .createHistorialClinico(this.turnoFinalizado)
+        .then(() => {
+          this.spinner = false;
+          this.dato1 = ['clave 1', 'valor 1'];
+          this.dato2 = ['clave 2', 'valor 2'];
+          this.dato3 = ['clave 3', 'valor 3'];
+          this.arrayClaveValorAdicionales = [];
+          this.cantidadClaveValor = 0;
+          this.formHistorial.reset();
+          this.notificationService.showSuccess(
+            'Historial clínico creado',
+            'Mis Turnos'
+          );
+        })
+        .catch(() => {
+          this.spinner = false;
+        });
+    }
+  }
+
+  modificarTurnoFinalizado(turno: any) {
+    turno.historial = true;
+    for (let i = 0; i < this.listaTurnosActualesEspecialista.length; i++) {
+      const turnosEspecialista = this.listaTurnosActualesEspecialista[i];
+      const index = turnosEspecialista.turnos.findIndex((t: any) => {
+        return (
+          new Date(t.fecha.seconds * 1000).getTime() ==
+            new Date(turno.fecha.seconds * 1000).getTime() &&
+          t.especialidad == turno.especialidad
+        );
+      });
+      turnosEspecialista.turnos[index] = turno;
+      this.authService.updateTurnList(turnosEspecialista);
+    }
+  }
+
+  transformarFechaParaBusqueda(value: any) {
+    if (value.seconds) {
+      value = new Date(value.seconds * 1000);
+    }
+    let rtn =
+      value.getFullYear() +
+      '-' +
+      (value.getMonth() + 1) +
+      '-' +
+      value.getDate();
+    if (parseInt(rtn.split('-')[2]) < 10 && parseInt(rtn.split('-')[2]) > 0) {
+      rtn =
+        value.getFullYear() +
+        '-' +
+        (value.getMonth() + 1) +
+        '-0' +
+        value.getDate();
+    } else {
+      rtn =
+        value.getFullYear() +
+        '-' +
+        (value.getMonth() + 1) +
+        '-' +
+        value.getDate();
+    }
+    return rtn;
+  }
 }

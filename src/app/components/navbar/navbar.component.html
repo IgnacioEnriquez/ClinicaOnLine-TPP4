@@ -1,6 +1,6 @@
 <nav id="navbar" class="navbar order-last order-lg-0">
     <ul>
-      <li><a (click)="goToBienvenido()" class="nav-link scrollto active">Home</a></li>      
+      <li><a routerLink="/bienvenido" class="nav-link scrollto active">Home</a></li>      
       <li>
         <div *ngIf="spinner_nav" class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -19,19 +19,22 @@
       <li *ngIf="esAdmin && !spinner_nav" (click)="goToTurnos()"><a
           class="nav-link scrollto">Turnos</a></li>
 
+        <li *ngIf="esEspecialista && !spinner_nav" (click)="goToPacientes()"><a
+            class="nav-link scrollto">Pacientes</a></li>
+
       <li *ngIf="this.authService.isLogged && !spinner_nav" (click)="goToMiPerfil()"><a
           class="nav-link scrollto">Mi Perfil</a></li>
 
       <li *ngIf="this.authService.isLogged && !spinner_nav">
         <div class="div-usuario">
-          <img class="img-btn" src="{{ user.imagen1 }}" alt="usuario" /> <label style="font-size: 15px; font-weight: bold;"
+          <img class="img-btn" width="80" height="80" src="{{ user.imagen1 }}" alt="usuario" /> <label style="font-size: 15px; font-weight: bold;"
             for="">{{user.nombre}}</label>
         </div>
       </li>
       <li *ngIf="this.authService.isLogged && !spinner_nav"><button (click)="cerrarSesion()"
           class="close appointment-btn">Cerrar
           Sesion</button></li>
-      <li *ngIf="!this.authService.isLogged && !spinner_nav"><button (click)="goToLogin()" class="appointment-btn ">Iniciar
+      <li *ngIf="!this.authService.isLogged && !spinner_nav"><button routerLink="/login-register" class="appointment-btn ">Iniciar
           Sesion</button>
       </li>
     </ul>

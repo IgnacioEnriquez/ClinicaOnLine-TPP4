@@ -1,0 +1,119 @@
+<div class="body-pacientes">
+    <div class="contenedor-spinner" *ngIf="spinner">
+        <div style="margin-top: 200px;" class="spinner-list spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="perfil" *ngIf="!spinner">
+
+        <div class="title-lista">
+            <h2>MIS PACIENTES</h2>
+        </div>
+
+        <div *ngIf="hayPacientesAtendidos">
+
+            <div class="container-pacientes container">
+
+                <div class="row">
+
+                    <div 
+                    class="col-4 align-items-stretch"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    *ngFor="let pac of pacientesAtendidos"
+                    (click)="verHistorialPaciente(pac)" >
+                        <div class="icon-box">
+                            <div class="icon"><img style="width: 95px; height: 95px;" src="{{ pac.imagen1 }}" alt="">
+                            </div>
+                            <h4><a >{{ pac.nombre }} - {{ pac.apellido }}</a></h4>    
+                            <p>HISTORIAL</p>  
+                            <div *ngFor="let historial of historialClinicoDelEspecialista">
+                                <div
+                                  *ngIf="
+                                    pac.id == historial.paciente.id &&
+                                    user.id == historial.especialista.id
+                                  "
+                                  class="detalle-atencion"
+                                >
+                                  <small *ngIf="historial.paciente.contador <= 3">
+                                    <span>Fecha:</span>
+                                    {{ formatearFecha(historial.fecha) }} <span>Especialidad:</span>
+                                    {{ historial.especialidad }}
+                                  </small>
+                                </div>
+                              </div>
+                                       
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          HISTORIAL CLÍNICO
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let historial of historialActivo" class="carta-historial">
+          <h3>{{ formatearFecha(historial.fecha) }}</h3>
+          <hr />
+          <p>
+            <span>Paciente: </span>{{ historial.paciente.apellido }},
+            {{ historial.paciente.nombre }}
+          </p>
+          <p><span>Especialidad: </span>{{ historial.especialidad }}</p>
+          <p>
+            <span>Especialista: </span>{{ historial.especialista.apellido }},
+            {{ historial.especialista.nombre }}
+          </p>
+          <p><span>Detalle: </span></p>
+          <p>Altura: {{ historial.detalle.altura }}</p>
+          <p>Peso: {{ historial.detalle.peso }}</p>
+          <p>Temperatura: {{ historial.detalle.temperatura }}</p>
+          <p>Presión: {{ historial.detalle.presion }}</p>
+          <p><span>Detalles adicionales: </span></p>
+          <p *ngIf="historial.detalleAdicional?.clave1">
+            {{ historial.detalleAdicional?.clave1 }}:
+            {{ historial.detalleAdicional?.valor1 }}
+          </p>
+          <p *ngIf="historial.detalleAdicional?.clave2">
+            {{ historial.detalleAdicional?.clave2 }}:
+            {{ historial.detalleAdicional?.valor2 }}
+          </p>
+          <p *ngIf="historial.detalleAdicional?.clave3">
+            {{ historial.detalleAdicional?.clave3 }}:
+            {{ historial.detalleAdicional?.valor3 }}
+          </p>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    

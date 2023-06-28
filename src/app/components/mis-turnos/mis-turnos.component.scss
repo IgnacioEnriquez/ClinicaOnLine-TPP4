@@ -66,8 +66,11 @@
 
 .busqueda-button
 {
+  display: flex;
     width: 100%;
-    padding-left: 250px;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .input-busqueda {

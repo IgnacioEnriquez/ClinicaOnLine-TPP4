@@ -1,110 +1,162 @@
-
 <div class="body-users">
 
-    <div class="contenedor-spinner" *ngIf="spinner">
-        <div class="spinner-list spinner-grow text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+  <div class="contenedor-spinner" *ngIf="spinner">
+    <div class="spinner-list spinner-grow text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
-    
+  </div>
 
-    <div class="listado-div container" *ngIf="listadoUsuarios && !spinner">
-        <div class="text-center">
-          <div class="title-lista">
-            <h2>Lista de Usuarios</h2>
-          </div>            
-            <div *ngIf="listadoUsuarios" class="boton-agregar">
-                <button (click)="mostrarCreacionPaciente()" class="button-56" role="button">Registrar Nuevo Usuario</button>
-            </div>
-        </div>
-        
-        <div class="table-usuarios">
-          
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">IMAGEN</th>
-                <th scope="col">PERFIL</th>
-                <th scope="col">NOMBRE</th>
-                <th scope="col">APELLIDO</th>
-                <th scope="col">ACCIÓN</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="tr-tabla" *ngFor="let user of usersList">
-                <td>                
-                    <img              
-                      style="width: 60px;"        
-                      src="{{ user.imagen1 }}"
-                      alt="imagen"
-                    />                              
-                </td>
-  
-                <td style="text-transform: upperCase">
-                  <span>{{ user.perfil }}</span>
-                </td>
-                <td>
-                  <span>{{ user.nombre }}</span>
-                </td>
-                <td>
-                  <span>{{ user.apellido }}</span>
-                </td>
-                <td>
-                  <div *ngIf="user.perfil == 'especialista'">
-                    <button
-                      class="btn-habilitar"
-                      *ngIf="!user.aprobado"
-                      (click)="updateUser(user, 1)"
-                    >
-                      Habilitar
-                    </button>
-                    <button
-                      class="btn-deshabilitar"
-                      *ngIf="user.aprobado"
-                      (click)="updateUser(user, 2)"
-                    >
-                      Deshabilitar
-                    </button>
-                  </div>                
-                </td>
-  
-  
-  
-              </tr>
-  
-  
-            </tbody>
-          </table>      
-        </div>
 
+  <div class="listado-div container" *ngIf="listadoUsuarios && !spinner">
+    <div class="text-center">
+      <div class="title-lista">
+        <h2>Lista de Usuarios</h2>
+      </div>
+      <div *ngIf="listadoUsuarios" class="boton-agregar">
+        <button (click)="mostrarCreacionPaciente()" class="button-56" role="button">Registrar Nuevo Usuario</button>
+        <button (click)="descargarExcel()" class="button-excel button-56" role="button">Descargar Excel</button>
+
+      </div>
     </div>
 
-    <div class="alta-paciente-div" *ngIf="!listadoUsuarios && !spinner">
-        <div class="container">
-            <div class="text-center">
-              <div class="titulo-back">
-                <button (click)="volverAListado()"><img src="../../../assets/back.png" style="height: 30px; width: 30px;" alt=""></button>
-                <h2>REGISTRO DE USUARIO</h2>
-              </div>
+    <div class="table-usuarios">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">IMAGEN</th>
+            <th scope="col">PERFIL</th>
+            <th scope="col">NOMBRE</th>
+            <th scope="col">APELLIDO</th>
+            <th scope="col">ACCIÓN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-tabla" *ngFor="let user of usersList">
+            <td>
+              <img style="width: 60px; height: 60px;" src="{{ user.imagen1 }}" alt="imagen" />
+            </td>
+
+            <td style="text-transform: upperCase">
+              <span>{{ user.perfil }}</span>
+            </td>
+            <td>
+              <span>{{ user.nombre }}</span>
+            </td>
+            <td>
+              <span>{{ user.apellido }}</span>
+            </td>
+            <td>
+              <div *ngIf="user.perfil == 'especialista'">
+                <button class="btn-habilitar" *ngIf="!user.aprobado" (click)="updateUser(user, 1)">
+                  Habilitar
+                </button>
+                <button class="btn-deshabilitar" *ngIf="user.aprobado" (click)="updateUser(user, 2)">
+                  Deshabilitar
+                </button>
                 
-                <div class="container">
-                    <button (click)="cambiarFormulario(1)" [ngClass]="formAdministrador ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Administrador</button>
-                    <button (click)="cambiarFormulario(2)" [ngClass]="formPaciente ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Paciente</button>
-                    <button (click)="cambiarFormulario(3)" [ngClass]="formEspecialista ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Especialista</button>
-                </div>                
-            </div>
-         
-        <div class="container" >            
-            <app-form-alta-paciente [tipoRegistro]="tipoRegistro" *ngIf="formPaciente"></app-form-alta-paciente>
-            <app-form-alta-especialista [tipoRegistro]="tipoRegistro" *ngIf="formEspecialista"></app-form-alta-especialista>
-            <app-form-alta-administrador [tipoRegistro]="tipoRegistro" *ngIf="formAdministrador"></app-form-alta-administrador>
+              </div>
+              <button *ngIf="user.perfil == 'paciente' && user.historial" class="btn-historial" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal" (click)="verHistorialPaciente(user)">
+                  Historial
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+  </div>
+
+  <div class="alta-paciente-div" *ngIf="!listadoUsuarios && !spinner">
+    <div class="container">
+      <div class="text-center">
+        <div class="titulo-back">
+          <button (click)="volverAListado()"><img src="../../../assets/back.png" style="height: 30px; width: 30px;"
+              alt=""></button>
+          <h2>REGISTRO DE USUARIO</h2>
         </div>
 
-        </div>              
+        <div class="container">
+          <button (click)="cambiarFormulario(1)"
+            [ngClass]="formAdministrador ? 'btn btn-primary' : 'btn btn-outline-primary'"
+            type="button">Administrador</button>
+          <button (click)="cambiarFormulario(2)"
+            [ngClass]="formPaciente ? 'btn btn-primary' : 'btn btn-outline-primary'" type="button">Paciente</button>
+          <button (click)="cambiarFormulario(3)"
+            [ngClass]="formEspecialista ? 'btn btn-primary' : 'btn btn-outline-primary'"
+            type="button">Especialista</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <app-form-alta-paciente [tipoRegistro]="tipoRegistro" *ngIf="formPaciente"></app-form-alta-paciente>
+        <app-form-alta-especialista [tipoRegistro]="tipoRegistro" *ngIf="formEspecialista"></app-form-alta-especialista>
+        <app-form-alta-administrador [tipoRegistro]="tipoRegistro"
+          *ngIf="formAdministrador"></app-form-alta-administrador>
+
+      </div>
+
     </div>
+  </div>
 
 </div>
 
-
-
+<!-- MODAL -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          HISTORIAL CLÍNICO
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let historial of historialActivo" class="carta-historial">
+          <h3>{{ historial.fecha }}</h3>
+          <hr />
+          <p>
+            <span>Paciente: </span>{{ historial.paciente.apellido }},
+            {{ historial.paciente.nombre }}
+          </p>
+          <p><span>Especialidad: </span>{{ historial.especialidad }}</p>
+          <p>
+            <span>Especialista: </span>{{ historial.especialista.apellido }},
+            {{ historial.especialista.nombre }}
+          </p>
+          <p><span>Detalle: </span></p>
+          <p>Altura: {{ historial.detalle.altura }}</p>
+          <p>Peso: {{ historial.detalle.peso }}</p>
+          <p>Temperatura: {{ historial.detalle.temperatura }}</p>
+          <p>Presión: {{ historial.detalle.presion }}</p>
+          <p><span>Detalles adicionales: </span></p>
+          <p *ngIf="historial.detalleAdicional?.clave1">
+            {{ historial.detalleAdicional?.clave1 }}:
+            {{ historial.detalleAdicional?.valor1 }}
+          </p>
+          <p *ngIf="historial.detalleAdicional?.clave2">
+            {{ historial.detalleAdicional?.clave2 }}:
+            {{ historial.detalleAdicional?.valor2 }}
+          </p>
+          <p *ngIf="historial.detalleAdicional?.clave3">
+            {{ historial.detalleAdicional?.clave3 }}:
+            {{ historial.detalleAdicional?.valor3 }}
+          </p>
+          <hr />
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>

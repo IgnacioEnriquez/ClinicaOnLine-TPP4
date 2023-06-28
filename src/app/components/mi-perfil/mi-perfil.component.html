@@ -15,10 +15,10 @@
                 <div class="card p-3 py-4" *ngIf="!misHorariosScreen">
 
                     <div class="text-center">
-                        <img style="border: 3px solid #1977cc;" src="{{ user.imagen1 }}" width="100"
+                        <img style="border: 3px solid #1977cc;" src="{{ user.imagen1 }}" width="100" height="100"
                             class="rounded-circle">
                         <img style="margin-left: 10px; border: 3px solid #1977cc;" src="{{ user.imagen2 }}" width="100"
-                            class="rounded-circle" *ngIf="isPaciente">
+                            height="100" class="rounded-circle" *ngIf="isPaciente">
                     </div>
 
                     <div class="text-center mt-3">
@@ -62,6 +62,8 @@
                                     <p>{{ user.apellido }}</p>
                                     <label>Obra Social</label>
                                     <p>{{ user.obraSocial }}</p>
+                                    <label>Tipo de Usuario </label>
+                                    <p>{{user.perfil.toUpperCase()}}</p>
 
                                 </div>
                                 <div class="col">
@@ -71,11 +73,21 @@
                                     <p>{{ user.edad }} años</p>
                                     <label>Email</label>
                                     <p>{{ user.email }}</p>
+                                    <label>Historial Clinico</label>
+                                    <p *ngIf="!hayHistorial">No hay historial cliníco disponible</p>
+                                    <p><button *ngIf="hayHistorial" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" class="btn btn-info"
+                                            (click)="verHistorialClinico()">
+                                            Ver Historial Clínico
+                                        </button>
+                                    </p>
+
+
                                 </div>
                             </div>
 
 
- 
+
 
 
                         </div>
@@ -99,12 +111,13 @@
                                     <p>{{ user.edad }} años</p>
                                     <label>Email</label>
                                     <p>{{ user.email }}</p>
-                                </div>                                                               
+                                </div>
 
                             </div>
 
-                            <div class="row">                                
-                                <button (click)="goToMisHorarios()" type="button" class="btn-horarios btn btn-primary">Mis Horarios</button>
+                            <div class="row">
+                                <button (click)="goToMisHorarios()" type="button"
+                                    class="btn-horarios btn btn-primary">Mis Horarios</button>
                             </div>
 
                         </div>
@@ -117,11 +130,133 @@
                 </div>
 
                 <div class="card p-3 py-4" *ngIf="misHorariosScreen">
-                    <app-horarios-especialista (actualizarScreen)="actualizarScreenEvent($event)" ></app-horarios-especialista>
+                    <app-horarios-especialista
+                        (actualizarScreen)="actualizarScreenEvent($event)"></app-horarios-especialista>
                 </div>
             </div>
 
         </div>
 
     </div>
-    
+</div>
+
+<div *ngIf="isPaciente" class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <button type="button" class="btn btn-danger" style="
+            margin-bottom: 1rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+          " [disabled]="!hayHistorialFiltrado" (click)="crearPDF()">
+                    Descargar PDF
+                </button>
+
+                <label style="font-size: 1rem; font-weight: bolder; margin-right: 2rem">FILTROS:
+                </label>
+
+                <button class="btn" [ngClass]="btnTodo ? 'btn-info' : 'btn-warning'" style="margin-right: 1rem"
+                    (click)="filtrarHistorialClinico('todo')">
+                    TODO
+                </button>
+
+                <button class="btn" [ngClass]="btnClinico ? 'btn-info' : 'btn-warning'" style="margin-right: 1rem"
+                    (click)="filtrarHistorialClinico('clinico')">
+                    CLÍNICO
+                </button>
+
+                <button class="btn" [ngClass]="btnOdontologo ? 'btn-info' : 'btn-warning'" style="margin-right: 1rem"
+                    (click)="filtrarHistorialClinico('odontologo')">
+                    ODONTOLOGO
+                </button>
+                <button class="btn" [ngClass]="btnOftalmologo ? 'btn-info' : 'btn-warning'" style="margin-right: 1rem"
+                    (click)="filtrarHistorialClinico('oftalmologo')">
+                    OFTALMOLOGO
+                </button>
+
+                <div id="pdf">
+
+                    <p style="text-align: right; font-size: 1rem">
+                        {{ formatearFecha(fechaActual) }}
+                    </p>
+
+                    <div style="display: flex; align-content: center; margin-bottom: 2rem">
+                        <img src="../../../assets/logo-online.png" style="width: 100px" alt="logo" />
+                        <h2 style="
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: bolder;
+                padding-top: 2rem;
+                margin-left: 2rem;
+              " id="exampleModalLabel">
+                            CLÍNICA ONLINE
+                        </h2>
+
+
+                    </div>
+
+                    <h1 style="text-align: center; font-size: 2rem">
+                        HISTORIAL CLÍNICO DE
+                        <span style="text-transform: uppercase; font-weight: bolder">{{ user.apellido }} {{ user.nombre
+                            }}</span>
+                    </h1>
+
+                    <h3 *ngIf="!hayHistorialFiltrado" style="text-align: center; color: #f00">
+                        El paciente no tiene historial clínico con la especialidad
+                        seleccionada...
+                    </h3>
+
+                    <div *ngFor="let historial of historialClinicoFiltrado" class="carta-historial">
+                        <h3>
+                            INFORME -
+                            <span style="text-transform: uppercase">{{
+                                historial?.especialidad
+                                }}</span>
+                            - {{ formatearFecha(historial?.fecha) }}
+                        </h3>
+                        <hr />
+                        <p>
+                            <span>Especialista: </span>{{ historial?.especialista?.apellido }},
+                            {{ historial?.especialista?.nombre }}
+                        </p>
+                        <p><span>Detalle: </span></p>
+                        <p>Altura: {{ historial?.detalle?.altura }}</p>
+                        <p>Peso: {{ historial?.detalle?.peso }}</p>
+                        <p>Temperatura: {{ historial?.detalle?.temperatura }}</p>
+                        <p>Presión: {{ historial?.detalle?.presion }}</p>
+                        <p><span>Detalles adicionales: </span></p>
+                        <p *ngIf="historial?.detalleAdicional?.clave1">
+                            {{ historial?.detalleAdicional?.clave1 }}:
+                            {{ historial?.detalleAdicional?.valor1 }}
+                        </p>
+                        <p *ngIf="historial?.detalleAdicional?.clave2">
+                            {{ historial?.detalleAdicional?.clave2 }}:
+                            {{ historial?.detalleAdicional?.valor2 }}
+                        </p>
+                        <p *ngIf="historial?.detalleAdicional?.clave3">
+                            {{ historial?.detalleAdicional?.clave3 }}:
+                            {{ historial?.detalleAdicional?.valor3 }}
+                        </p>
+                        <hr />
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>

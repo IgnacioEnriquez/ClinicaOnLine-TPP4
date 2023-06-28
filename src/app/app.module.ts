@@ -30,6 +30,7 @@ import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { HorariosEspecialistaComponent } from './components/horarios-especialista/horarios-especialista.component';
 import { TurnosComponent } from './components/turnos/turnos.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { PacientesComponent } from './components/pacientes/pacientes.component';
 
 
 
@@ -51,7 +52,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MiPerfilComponent,
     HorariosEspecialistaComponent,
     TurnosComponent,
-    NavbarComponent, 
+    NavbarComponent,
+    PacientesComponent, 
   ],
   imports: [
     BrowserModule,
