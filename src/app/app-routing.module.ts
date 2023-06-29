@@ -49,6 +49,12 @@ const routes: Routes = [
     data:{animation: 'Turnos'}
   },
   {
+    path: 'informes',
+    loadChildren: () =>
+    import('./modules/informes/informes.module').then((m) => m.InformesModule),
+    data:{animation: 'Turnos'}
+  },
+  {
     path: '',
     redirectTo: 'bienvenido',
     pathMatch: 'full',

@@ -236,4 +236,21 @@ export class AuthService {
         throw error;
       });
   }//--------------------------------------------------------------------------------------------------
+  createUserLog(user: any) {
+    const log: any = {};
+    log.fecha = new Date();
+    log.id = user.id;
+    log.perfil = user.perfil;
+    log.nombre = user.nombre;
+    log.apellido = user.apellido;
+    return this.angularFirestore.collection('logUsuarios').add(log);
+  } // end of createUserLog
+
+  getUsersLog() {
+    const collection = this.angularFirestore.collection<any>(
+      'logUsuarios',
+      (ref) => ref.orderBy('fecha', 'desc')
+    );
+    return collection.valueChanges();
+  }
 }

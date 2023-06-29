@@ -11,6 +11,8 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./form-login.component.scss'],
 })
 export class FormLoginComponent {
+
+  userLog: any = null;
   formLogin: FormGroup;
   spinner: boolean = false;
   userLogin: User = new User();
@@ -35,14 +37,11 @@ export class FormLoginComponent {
       this.userLogin.password = this.formLogin.getRawValue().password;
       this.authService
         .userLogin(this.userLogin.email, this.userLogin.password)
-        .then(async (data: any) => { 
-
+        .then(async (data: any) => {        
           let subscripcion = this.authService.user$.subscribe((user: any) => {
-            if (user) {    
-              console.log("Entro aca");
-              console.log(user.test);          
+            if (user) {                          
               if (!data?.user?.emailVerified) {
-                console.log("Entra aca 1");
+                
                 data?.user?.sendEmailVerification();
                 this.notificationService.showWarning(
                   'Debes verificar tu email!',
@@ -53,7 +52,7 @@ export class FormLoginComponent {
                 this.authService.userLogout();
               } else {
                 if (user.perfil == 'especialista' && user.aprobado == false) {
-                console.log("Entra aca 2");
+                
                   this.notificationService.showWarning(
                     'Tu Cuenta no esta aprobada por un Administrador',
                     'Inicio de Sesión'
@@ -67,7 +66,9 @@ export class FormLoginComponent {
                     'Inicio exitoso, redirigiendo...',
                     'Inicio de Sesión'
                   );                          
-                  this.spinner = false;                  
+                  this.spinner = false;  
+                  this.userLog = user;  
+                  this.authService.createUserLog(this.userLog);              
                   this.router.navigate(["bienvenido"]);
                   subscripcion.unsubscribe();
                   

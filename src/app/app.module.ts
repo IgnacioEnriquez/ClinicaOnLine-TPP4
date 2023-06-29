@@ -31,6 +31,10 @@ import { HorariosEspecialistaComponent } from './components/horarios-especialist
 import { TurnosComponent } from './components/turnos/turnos.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { InformesComponent } from './components/informes/informes.component';
+import { TarjetaDirective } from './directivas/tarjeta.directive';
+import { HoverDirective } from './directivas/hover.directive';
+import { BotonDirective } from './directivas/boton.directive';
 
 
 
@@ -53,7 +57,11 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
     HorariosEspecialistaComponent,
     TurnosComponent,
     NavbarComponent,
-    PacientesComponent, 
+    PacientesComponent,
+    InformesComponent,
+    TarjetaDirective,
+    HoverDirective, 
+    BotonDirective  
   ],
   imports: [
     BrowserModule,

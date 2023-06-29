@@ -91,6 +91,11 @@ export class NavbarComponent {
     this.router.navigate(['/pacientes']);
   }//--------------------------------------------------------------------------------------------------
 
+  goToInformes()
+  {
+    this.router.navigate(['/informes']);
+  }//--------------------------------------------------------------------------------------------------
+
   cerrarSesion() {
     this.authService.userLogout();
     this.user = null;
